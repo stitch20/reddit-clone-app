@@ -1,32 +1,28 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import InputGroup from "../components/InputGroup";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "../utils/axios";
 import { useRouter } from "next/router";
-import { useAuthDispatch } from "../context/auth";
+import { useAuthDispatch, useAuthState } from "../context/auth";
 
 export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
-
   const dispatch = useAuthDispatch();
 
   const router = useRouter();
 
+  const { loading, authenticated } = useAuthState();
+  if (authenticated) router.push("/");
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const res = await Axios.post(
-        "/auth/login",
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await Axios.post("/auth/login", {
+        username,
+        password,
+      });
       dispatch("LOGIN", res.data?.user);
       router.push("/");
     } catch (error: any) {
