@@ -9,7 +9,7 @@ import { Comment, Post } from "../types";
 import Axios from "../utils/axios";
 interface PostCardProps {
     post: Post;
-    subMutate: KeyedMutator<any>;
+    subMutate?: KeyedMutator<any>;
 }
 
 export const PostCard = ({
