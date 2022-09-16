@@ -143,7 +143,7 @@ export const PostPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pl-3 pr-6 mb-4">
+                            <div className="pl-9 pr-6 mb-4">
                                 {authenticated ? (
                                     <div>
                                         <p className="mb-1 text-xs">

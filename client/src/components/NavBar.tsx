@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, Fragment } from "react";
 import { useAuthDispatch, useAuthState } from "../context/auth";
@@ -16,9 +17,20 @@ export const Navbar: React.FC = () => {
         }
     };
     return (
-        <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-16 px-5 bg-white">
-            <span className="text-2xl font-semibold text-gray-400">
-                <Link href="/">Community</Link>
+        <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-13 px-5 bg-white">
+            <span className="flex items-center text-2xl font-semibold text-gray-400">
+                {/* <Link href="/">Community</Link> */}
+                <Link href="/">
+                    <a className="cursor-pointer">
+                        <Image
+                            src="/reddit-name-logo.png"
+                            alt="logo"
+                            width={80}
+                            height={45}
+                            className="hidden md:block"
+                        />
+                    </a>
+                </Link>
             </span>
 
             <div className="max-w-full px-4">
@@ -26,8 +38,8 @@ export const Navbar: React.FC = () => {
                     <i className="pl-4 pr-3 text-gray-400 fas fa-search"></i>
                     <input
                         type="text"
-                        placeholder="Search"
-                        className="px-3 py-1 bg-transparent rounded focus:outline-none"
+                        placeholder="Search Reddit"
+                        className="px-3 py-1 bg-transparent rounded h-7 focus:outline-none placeholder:text-sm"
                     />
                 </div>
             </div>
@@ -35,7 +47,7 @@ export const Navbar: React.FC = () => {
                 {!loading &&
                     (authenticated ? (
                         <button
-                            className="w-20 p-2 mr-2 text-center text-white bg-gray-400 rounded"
+                            className="w-20 px-2 mr-2 text-sm text-center text-white bg-gray-400 rounded h-7"
                             onClick={handleLogout}
                         >
                             Logout
@@ -43,12 +55,12 @@ export const Navbar: React.FC = () => {
                     ) : (
                         <Fragment>
                             <Link href="/login">
-                                <a className="w-20 p-2 mr-2 text-center text-blue-500 border border-blue-500 rounded">
+                                <a className="w-20 px-2 pt-1 mr-2 text-sm text-center text-white bg-gray-400 rounded h-7">
                                     log in
                                 </a>
                             </Link>
                             <Link href="/register">
-                                <a className="w-20 p-2 text-center text-white bg-gray-400 rounded">
+                                <a className="w-20 px-2 pt-1 text-sm text-center text-white bg-gray-400 rounded h-7">
                                     sing up
                                 </a>
                             </Link>

@@ -29,7 +29,7 @@ export const UserPage = () => {
                                 key={comment.identifier}
                                 className="flex my-4 bg-white rounded"
                             >
-                                <div className="flex-shrink-0 w-10 py-10 text-center bg-gray-200 rounded-l">
+                                <div className="flex-shrink-0 w-10 py-10 text-center border-r rounded-l bg-white">
                                     <i className="text-gray-500 fas fa-comment-alt fa-xs"></i>
                                 </div>
                                 <div className="w-full p-2">
@@ -38,8 +38,8 @@ export const UserPage = () => {
                                             <a className="text-black cursor-pointer hover:underline">
                                                 {comment.username}
                                             </a>
-                                        </Link>
-                                        <span> commented on </span>
+                                        </Link>{" "}
+                                        <span> commented on </span> {""}
                                         <Link href={`/u/${comment.post?.url}`}>
                                             <a className="font-semibold cursor-pointer hover:underline">
                                                 {comment.post?.title}
@@ -74,7 +74,7 @@ export const UserPage = () => {
                     />
                     <p className="pl-2 text-md">{data.user.username}</p>
                 </div>
-                <div className="p-3">
+                <div className="p-2 bg-white rounded-b">
                     <p>
                         {dayjs(data.user.createdAt).format("YYYY.MM.DD")} 가입
                     </p>

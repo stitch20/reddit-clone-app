@@ -57,7 +57,7 @@ export const PostCard = ({
             id={identifier}
         >
             {/* Vote 부분 */}
-            <div className="w-10 py-3 text-center bg-gray-200 rounded-l">
+            <div className="w-10 py-3 text-center rounded-l">
                 <div
                     className="w-6 mx-auto text-gray-400 rounded cursor-pointer
                 hover:bg-gray-300 hover:text-red-500"
