@@ -6,12 +6,9 @@ import useSWR from "swr";
 import { useAuthState } from "../context/auth";
 import { Sub } from "../types";
 const Home: NextPage = () => {
-    const fetcher = async (url: string) => {
-        return await axios.get(url).then((res) => res.data);
-    };
     const address =
         process.env.NEXT_PUBLIC_SERVER_BASE_URL + "/api/subs/sub/topSubs";
-    const { data: topSubs } = useSWR<Sub[]>(address, fetcher);
+    const { data: topSubs } = useSWR<Sub[]>(address);
     const { authenticated } = useAuthState();
 
     return (
@@ -24,7 +21,6 @@ const Home: NextPage = () => {
                             상위 커뮤니티
                         </p>
                     </div>
-                    {/* 커뮤니티 목록 */}
                     <div>
                         {topSubs?.map((sub) => (
                             <div
@@ -34,7 +30,7 @@ const Home: NextPage = () => {
                                 <Link href={`/r/${sub.name}`}>
                                     <a>
                                         <Image
-                                            src="https://www.gravatar.com/avatar?d=mp&f=y"
+                                            src={sub.imageUrl}
                                             className="rounded-full cursor-pointer"
                                             alt="Sub"
                                             width={24}

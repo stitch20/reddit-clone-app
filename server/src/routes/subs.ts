@@ -79,6 +79,17 @@ const getSub = async (req: Request, res: Response) => {
 
     try {
         const sub = await Sub.findOneByOrFail({ name });
+
+        const posts = await Post.find({
+            where: { subName: sub.name },
+            order: { createdAt: "DESC" },
+            relations: ["comments", "votes"],
+        });
+        sub.posts = posts;
+
+        if (res.locals.user) {
+            sub.posts.forEach((p) => p.setUserVote(res.locals.user));
+        }
         return res.json(sub);
     } catch (error) {
         return res.status(404).json({ error: "서브를 찾을 수 없음." });

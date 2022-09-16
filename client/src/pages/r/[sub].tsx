@@ -8,28 +8,22 @@ import React, {
     useState,
 } from "react";
 import useSWR from "swr";
+import Sidebar from "../../components/Sidebar";
 import { useAuthState } from "../../context/auth";
 import Axios from "../../utils/axios";
+import { Post } from "../../types";
+import PostCard from "../../components/PostCard";
 const subPage = () => {
     const [ownSub, setOwnSub] = useState(false);
     const { authenticated, user } = useAuthState();
 
-    const fetcher = async (url: string) => {
-        try {
-            const res = await Axios.get(url);
-            return res.data;
-        } catch (error: any) {
-            console.log(error);
-            throw error.response.data;
-        }
-    };
-
     const router = useRouter();
     const subName = router.query.sub;
-    const { data: sub, error } = useSWR(
-        subName ? `/subs/${subName}` : null,
-        fetcher
-    );
+    const {
+        data: sub,
+        error,
+        mutate: subMutate,
+    } = useSWR(subName ? `/subs/${subName}` : null);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -61,16 +55,37 @@ const subPage = () => {
         }
     };
 
+    let renderPosts;
+    if (!sub) {
+        renderPosts = <p className="text-lg text-center">로딩중...</p>;
+    } else if (sub.posts.length === 0) {
+        renderPosts = (
+            <p className="text-lg text-center">
+                아직 작성된 포스트가 없습니다.
+            </p>
+        );
+    } else {
+        renderPosts = sub.posts.map((post: Post) => (
+            <PostCard key={post.identifier} post={post} subMutate={subMutate} />
+        ));
+    }
+
     useEffect(() => {
         if (!sub || !user) return;
         setOwnSub(authenticated && user.username === sub.username);
     }, [sub]);
 
+    // NOTE: 존재하지 않은 커뮤니티면 홈화면으로 이동
+    useEffect(() => {
+        if (error?.error) {
+            router.push("/");
+        }
+    }, [error]);
+
     return (
         <>
             {sub && (
                 <Fragment>
-                    {JSON.stringify(sub)}
                     <input
                         type="file"
                         hidden={true}
@@ -123,8 +138,12 @@ const subPage = () => {
                             </div>
                         </div>
                     </div>
+                    {/* 포스트 & 사이드바 */}
                     <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-                        Posts & Sidebar
+                        <div className="w-full md:mr-3 md:w-8/12">
+                            {renderPosts}
+                        </div>
+                        <Sidebar sub={sub} />
                     </div>
                 </Fragment>
             )}

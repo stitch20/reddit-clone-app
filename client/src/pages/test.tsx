@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Axios from "../utils/axios";
 const Test = () => {
+    const a = { a: { b: "c" } };
     useEffect(() => {
         async function testAxios() {
             try {

@@ -7,7 +7,8 @@ import cookieParser from "cookie-parser";
 import { AppDataSource } from "./data-source";
 import authRoutes from "./routes/auth";
 import subRoutes from "./routes/subs";
-
+import postRoutes from "./routes/posts";
+import voteRoutes from "./routes/votes";
 const app = express();
 const origin = process.env.ORIGIN || "http://localhost:3000";
 app.use(
@@ -30,7 +31,8 @@ dotenv.config();
 app.get("/", (_, res) => res.send("running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/subs", subRoutes);
-
+app.use("/api/posts", postRoutes);
+app.use("/api/votes", voteRoutes);
 let port = process.env.PORT || 4000;
 app.listen(port, async () => {
     console.log(`Server running at http://localhost:${port}`);
